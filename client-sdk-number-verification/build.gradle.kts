@@ -43,7 +43,7 @@ publishing {
     publications {
         create<MavenPublication>("aar") {
             groupId = "com.vonage"
-            artifactId = "client-sdk-silent-auth"
+            artifactId = "client-sdk-number-verification"
             version = "1.0.0"
             artifact("$buildDir/outputs/aar/${project.name}-release.aar")
             pom {
@@ -95,6 +95,10 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign(publishing.publications["aar"])
 }
 
 dependencies {

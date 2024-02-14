@@ -1,5 +1,6 @@
 package com.vonage.numberverification.network
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
@@ -65,7 +66,7 @@ internal class CellularNetworkManager(context: Context) : NetworkManager {
                 if (debug) tracer.startTrace()
                 response = cs.open(url, headers, getOperator())
                 if (debug) {
-                    var json = JSONObject()
+                    val json = JSONObject()
                     json.put("device_info", deviceInfo())
                     json.put("url_trace", tracer.getTrace().trace)
                     response.put("debug", json)
@@ -102,7 +103,7 @@ internal class CellularNetworkManager(context: Context) : NetworkManager {
         return response
     }
     private fun sendError(code: String, description: String): JSONObject {
-        var json: JSONObject = JSONObject()
+        val json: JSONObject = JSONObject()
         json.put("error", code)
         json.put("error_description", description)
         return json
@@ -152,6 +153,7 @@ internal class CellularNetworkManager(context: Context) : NetworkManager {
      * it should be available. A further optimisation can be done perhaps, with helper check methods.
      *
      */
+    @SuppressLint("MissingPermission")
     @Synchronized
     private fun forceCellular(capabilities: IntArray, transportTypes: IntArray, onCompletion: (isSuccess: Boolean) -> Unit) {
 
