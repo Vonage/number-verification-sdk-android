@@ -302,7 +302,7 @@ internal class ClientSocket constructor(var tracer: TraceCollector = TraceCollec
                         }
                     } else if (line.contains("Set-Cookie:") || line.contains("set-cookie:")) {
                         val parts: List<String> = line.split("ookie:")
-                        if (!parts.isEmpty() && parts.size > 1) {
+                        if (parts.isNotEmpty() && parts.size > 1) {
                             try {
                                 for (cookie in HttpCookie.parse(parts[1])) {
                                     cookies.add(cookie)
@@ -315,13 +315,13 @@ internal class ClientSocket constructor(var tracer: TraceCollector = TraceCollec
                         }
                     } else if (line.contains("Location:") || line.contains("location:")) {
                         result = parseRedirect(status, requestURL, line.replace("\r", ""), cookies)
-                    } else if (line.contains("Content-Type:")) {
-                        var parts = line.split(" ")
-                        if (!parts.isEmpty() && parts.size > 1) {
+                    } else if (line.contains("Content-Type:") || line.contains("content-type:")) {
+                        val parts = line.split(" ")
+                        if (parts.isNotEmpty() && parts.size > 1) {
                             type = parts[1].replace(";", "").replace("\r", "")
                         }
                         tracer.addDebug(Log.DEBUG, TAG, "Type - $type\n")
-                    } else if (("application/json".equals(type) || "application/hal+json".equals(type) || "application/problem+json".equals(type)) && line.equals("\r")) {
+                    } else if (("application/json" == type || "application/hal+json" == type || "application/problem+json" == type) && line == "\r") {
                         bodyBegin = true
                     } else if (bodyBegin) {
                         body = if (body != null) body + line.replace("\r", "") else line.replace("\r", "")

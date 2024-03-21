@@ -50,7 +50,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":client-sdk-number-verification"))
 
     implementation("androidx.core:core-ktx:1.12.0")

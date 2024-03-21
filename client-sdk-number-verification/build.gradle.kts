@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        version = "1.0.0"
+        version = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         android.buildFeatures.buildConfig = true
     }
@@ -44,7 +44,7 @@ publishing {
         create<MavenPublication>("aar") {
             groupId = "com.vonage"
             artifactId = "client-sdk-number-verification"
-            version = "1.0.0"
+            version = "1.0.1"
             artifact("$buildDir/outputs/aar/${project.name}-release.aar")
             pom {
                 name = "Vonage Client SDK - Number Verification"

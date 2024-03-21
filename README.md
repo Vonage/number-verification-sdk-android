@@ -26,6 +26,8 @@ implementation 'com.vonage:client-sdk-number-verification:1.0.0'
         // error
     } else {
         val status = response.optInt("http_status")
+        val jsonReponse = response.getJSONObject("response_body") // Body of response parsed to JSON (NULL if not JSON)
+        val rawReponse = response.optString("response_raw_body") // RAW string of response body (Only populated if not JSON)
         if (status == 200) {
             // 200 OK
         } else {

@@ -42,11 +42,13 @@ class MainActivity : ComponentActivity() {
             queryParameters = queryParameters
         )
 
-        val response = VGNumberVerificationClient.getInstance().startNumberVerification(params, true)
+        val response = VGNumberVerificationClient.getInstance().startNumberVerification(params, false)
         if (response.optString("error") != "") {
             // error
         } else {
-            val status = response.optInt("http_status")
+            val status = response.optInt("http_status") // Return HTTP status code
+            val jsonReponse = response.getJSONObject("response_body") // Body of response parsed to JSON (NULL if not JSON)
+            val rawReponse = response.optString("response_raw_body") // RAW string of response body (Only populated if not JSON)
             if (status == 200) {
                 // 200 OK
             } else {
