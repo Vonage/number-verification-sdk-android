@@ -19,7 +19,7 @@ class VGNumberVerificationClient private constructor(networkManager: CellularNet
     fun startNumberVerification(params: VGNumberVerificationParameters, debug: Boolean): JSONObject {
         val uri = constructURL(params)
         val networkManager: NetworkManager = getCellularNetworkManager()
-        return networkManager.openWithDataCellular( uri, params.headers, debug)
+        return networkManager.openWithDataCellular( uri, params.headers, params.maxRedirectCount, debug)
     }
 
     private fun getCellularNetworkManager(): NetworkManager {
