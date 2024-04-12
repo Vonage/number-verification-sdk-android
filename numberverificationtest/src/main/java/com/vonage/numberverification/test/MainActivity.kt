@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
     private val myServerURL = "https://MYSERVER.com" //URL to your server running the Server SDK
     private val headers = mapOf("x-my-header" to "My Value") //Headers to be sent with the request (useful if your server requires authentication)
     private val queryParameters = mapOf("query-param" to "value") //Query parameters to be sent with the request.
-
+    private val maxRedirectCount = 15 //Maximum number of redirects to follow, default is 10
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -39,7 +39,8 @@ class MainActivity : ComponentActivity() {
         val params = VGNumberVerificationParameters(
             url = myServerURL,
             headers = headers,
-            queryParameters = queryParameters
+            queryParameters = queryParameters,
+            maxRedirectCount = maxRedirectCount
         )
 
         val response = VGNumberVerificationClient.getInstance().startNumberVerification(params, false)

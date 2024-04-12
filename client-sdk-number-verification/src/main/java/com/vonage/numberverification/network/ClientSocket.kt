@@ -20,7 +20,7 @@ internal class ClientSocket constructor(var tracer: TraceCollector = TraceCollec
     private lateinit var output: OutputStream
     private lateinit var input: BufferedReader
 
-    fun open(url: URL, headers: Map<String, String>?, operator: String?): JSONObject {
+    fun open(url: URL, headers: Map<String, String>?, operator: String?, maxRedirectCount: Int): JSONObject {
         val requestId: String = UUID.randomUUID().toString()
         var redirectURL: URL? = null
         var redirectCount = 0
@@ -35,7 +35,7 @@ internal class ClientSocket constructor(var tracer: TraceCollector = TraceCollec
                     result = sendCommand(nurl, headers, operator, null, requestId)
                 else
                     result = sendCommand(nurl, null, null, result?.getCookies(), requestId)
-                if (result != null && result.getRedirect() != null)
+                if (result?.getRedirect() != null)
                     redirectURL = result.getRedirect()
                 else
                     redirectURL = null
@@ -44,8 +44,8 @@ internal class ClientSocket constructor(var tracer: TraceCollector = TraceCollec
                 tracer.addDebug(Log.DEBUG, TAG, "Cannot start connection: $nurl")
                 return convertError("sdk_connection_error", "ex: ".plus(ex.localizedMessage))
             }
-        } while (redirectURL != null && redirectCount <= MAX_REDIRECT_COUNT)
-        if (redirectCount == MAX_REDIRECT_COUNT)
+        } while (redirectURL != null && redirectCount <= maxRedirectCount)
+        if (redirectCount == maxRedirectCount)
             return convertError("sdk_redirect_error", "Too many redirects")
         tracer.addDebug(Log.DEBUG, TAG, "Open completed")
         if (result != null)
@@ -399,7 +399,6 @@ internal class ClientSocket constructor(var tracer: TraceCollector = TraceCollec
     companion object {
         private const val TAG = "CellularClient"
         private const val HEADER_USER_AGENT = "User-Agent"
-        private const val MAX_REDIRECT_COUNT = 10
         private const val PORT_80 = 80
         private const val PORT_443 = 443
         private const val CRLF = "\r\n"

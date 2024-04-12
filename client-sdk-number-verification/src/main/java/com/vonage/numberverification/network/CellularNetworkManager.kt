@@ -38,7 +38,7 @@ internal class CellularNetworkManager(context: Context) : NetworkManager {
 
     private val tracer = TraceCollector.instance
 
-    override fun openWithDataCellular(url: URL, headers: Map<String, String>?, debug: Boolean): JSONObject {
+    override fun openWithDataCellular(url: URL, headers: Map<String, String>?, maxRedirectCount: Int, debug: Boolean,): JSONObject {
         var calledOnCellularNetwork = false
         var response: JSONObject = JSONObject()
         tracer.addDebug(Log.DEBUG, TAG, "Triggering open check url")
@@ -64,7 +64,7 @@ internal class CellularNetworkManager(context: Context) : NetworkManager {
                 // However, user may still have no data plan!
                 val cs = ClientSocket()
                 if (debug) tracer.startTrace()
-                response = cs.open(url, headers, getOperator())
+                response = cs.open(url, headers, getOperator(), maxRedirectCount)
                 if (debug) {
                     val json = JSONObject()
                     json.put("device_info", deviceInfo())
