@@ -38,7 +38,7 @@ internal class CellularNetworkManager(context: Context) : NetworkManager {
 
     private val tracer = TraceCollector.instance
 
-    override fun openWithDataCellular(url: URL, headers: Map<String, String>?, maxRedirectCount: Int, debug: Boolean,): JSONObject {
+    override fun openWithDataCellular(url: URL, headers: Map<String, String>?, maxRedirectCount: Int, debug: Boolean): JSONObject {
         var calledOnCellularNetwork = false
         var response: JSONObject = JSONObject()
         tracer.addDebug(Log.DEBUG, TAG, "Triggering open check url")
