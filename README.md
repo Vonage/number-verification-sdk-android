@@ -7,7 +7,7 @@
 build.gradle -> dependencies add
 
 ```
-implementation 'com.vonage:client-sdk-number-verification:1.1.0'
+implementation 'com.vonage:client-sdk-number-verification:1.1.1'
 ```
 
 ## Usage
